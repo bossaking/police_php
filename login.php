@@ -13,10 +13,12 @@ if (isset($_POST['signIn'])) {
     $login = $_POST['login'];
     $password = $_POST['password'];
 
-    if ($userRepository->signIn($login, $password)) {
+    $user = $userRepository->signIn($login, $password);
 
+    if ($user != null) {
+
+        (new SessionHelper())->signIn($user);
         header("Location:index.php");
-
     } else {
         $error = "Nieprawidłowy login lub hasło";
     }

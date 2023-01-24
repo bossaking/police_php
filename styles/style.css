@@ -7,7 +7,7 @@ body{
     display: flex;
     flex-direction: column;
     background-color: whitesmoke;
-    gap: 2rem;
+    gap: 1rem;
     min-height: 100vh;
 }
 
@@ -44,6 +44,7 @@ a{
     display: flex;
     flex-direction: column;
     flex: 1;
+    padding: 2rem;
 }
 
 .main-footer{
@@ -81,6 +82,17 @@ a{
     color: white;
 }
 
+.btn-primary{
+    border: 1px solid #002056;
+    color: white;
+    background-color: #002056;
+}
+
+.btn-primary:hover{
+    background-color: transparent;
+    color: #002056;
+}
+
 .btn-access{
     background-color: #567356;
     color: white;
@@ -92,6 +104,27 @@ a{
     color: #567356;
 }
 
+.btn-outline-access{
+    border: 1px solid #567356;
+    color: #567356;
+    background-color: transparent;
+}
+
+.btn-outline-access:hover{
+    background-color: #567356;
+    color: white;
+}
+
+.btn-outline-danger{
+    border: 1px solid #e01e1e;
+    color: #e01e1e;
+    background-color: transparent;
+}
+
+.btn-outline-danger:hover{
+    background-color: #e01e1e;
+    color: white;
+}
 
 .centered-container{
     display: flex;
@@ -149,14 +182,98 @@ a{
     color: #002056;
 }
 
-.form-field input{
+.form-field input, .form-field select{
     padding: .5rem;
     border-radius: 5px;
     border: 1px solid #002056;
     font-family: 'Arimo', sans-serif;
 }
 
+.form-row{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.w-100{
+    width: 100%;
+}
+
 .form-error{
     color: #e01e1e;
     font-family: 'Arimo', sans-serif;
+}
+
+.right-side-nav{
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    align-items: end;
+}
+
+.user-info{
+    font-family: 'Arimo', sans-serif;
+    color: #002056;
+    font-size: .8rem;
+}
+
+.header-links{
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.users-container{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.users-table-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.users-table, .users-table th, .users-table td{
+    border: 1px solid #002056;
+    border-collapse: collapse;
+}
+
+.users-table{
+    width: 90%;
+    text-align: center;
+    border-radius: 2px;
+    border-style: hidden;
+    box-shadow: 0 0 0 1px #666;
+}
+
+.users-table th{
+    font-family: 'Alatsi', sans-serif;
+    padding: .3rem;
+    font-size: .8rem;
+}
+
+.users-table td{
+    font-family: 'Arimo', sans-serif;
+    padding: .4rem;
+}
+
+.action-images{
+    display: flex;
+    flex-direction: row;
+    gap: .5rem;
+    justify-content: center;
+    align-items: center;
+}
+
+.action-images img{
+    width: 1.1rem;
+}
+
+.action-images a:hover{
+    transform: scale(1.1);
 }

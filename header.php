@@ -1,4 +1,10 @@
 <?php
+
+require_once 'helpers/SessionHelper.php';
+
+$sessionHelper = new SessionHelper();
+
+
 ?>
 
 <!doctype html>
@@ -28,9 +34,42 @@
         <span>E-zgłoszenia</span>
     </a>
 
-    <nav class="header-links">
-        <a href="login.php" class="btn btn-outline-primary">Zaloguj się</a>
-    </nav>
+    <div class="right-side-nav">
+
+        <?php
+
+        if ($sessionHelper->isLoggedIn()) {
+            $user = $sessionHelper->getUser();
+            ?>
+
+            <span class="user-info">Jesteś zalogowany jako <?= $user->getName() ?> <?= $user->getSurname() ?> (<?= $user->getMaxRoleTitle() ?>)</span>
+            <nav class="header-links">
+                <a href="submissions.php" class="btn btn-outline-access">Zgłoszenia</a>
+                <a href="submissions.php" class="btn btn-outline-access">Pracownicy</a>
+                <?php
+                if ($user->userInRole(Roles::ADMIN)) {
+                    ?>
+                    <span>|</span>
+                    <a href="users.php" class="btn btn-primary">Kategorie</a>
+                    <a href="users.php" class="btn btn-primary">Zespoły</a>
+                    <a href="users.php" class="btn btn-primary">Użytkownicy</a>
+                    <?php
+                }
+                ?>
+                <span>|</span>
+                <a href="logout.php" class="btn btn-outline-danger">Wyloguj</a>
+            </nav>
+            <?php
+        } else {
+            ?>
+            <nav class="header-links">
+                <a href="login.php" class="btn btn-outline-primary">Zaloguj się</a>
+            </nav>
+            <?php
+        }
+        ?>
+    </div>
+
 
 </header>
 

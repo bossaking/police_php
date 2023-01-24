@@ -3,11 +3,11 @@
 
 class DBConnection{
 
-    private $ip = "31.172.70.199";
-    private $port = 3306;
-    private $username = "root";
-    private $password = "root";
-    private $database = "police";
+    private string $ip = "31.172.70.199";
+    private int $port = 3306;
+    private string $username = "root";
+    private string $password = "root";
+    private string $database = "police";
 
 
     public function getConnection(){
