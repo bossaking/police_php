@@ -44,14 +44,22 @@ $sessionHelper = new SessionHelper();
 
             <span class="user-info">Jesteś zalogowany jako <?= $user->getName() ?> <?= $user->getSurname() ?> (<?= $user->getMaxRoleTitle() ?>)</span>
             <nav class="header-links">
-                <a href="submissions.php" class="btn btn-outline-access">Zgłoszenia</a>
-                <a href="submissions.php" class="btn btn-outline-access">Pracownicy</a>
+
+                <a href="submissions.php" class="btn btn-outline-warn">Zgłoszenia</a>
+
+                <?php
+                if ($user->getMaxRole() != Roles::EMPLOYEE) {
+                    ?>
+                    <span>|</span>
+                    <a href="submissions.php" class="btn btn-outline-access">Pracownicy</a>
+                <?php } ?>
+
                 <?php
                 if ($user->userInRole(Roles::ADMIN)) {
                     ?>
                     <span>|</span>
-                    <a href="users.php" class="btn btn-primary">Kategorie</a>
-                    <a href="users.php" class="btn btn-primary">Zespoły</a>
+                    <a href="categories.php" class="btn btn-primary">Kategorie</a>
+                    <a href="teams.php" class="btn btn-primary">Zespoły</a>
                     <a href="users.php" class="btn btn-primary">Użytkownicy</a>
                     <?php
                 }

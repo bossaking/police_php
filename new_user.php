@@ -57,7 +57,6 @@ if (isset($_POST['create'])) {
         } else {
             $error = "Coś poszło nie tak...spróbuj ponownie";
         }
-
     }
 
 

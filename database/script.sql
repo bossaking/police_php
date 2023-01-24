@@ -1,3 +1,9 @@
+CREATE TABLE `police`.`team` (
+                                 `id` INT NOT NULL AUTO_INCREMENT,
+                                 `team_name` VARCHAR(255) NOT NULL,
+                                 PRIMARY KEY (`id`));
+
+
 /*Seedeng database*/
 INSERT INTO `police`.`role` (`id`, `title`) VALUES ('1', 'admin');
 INSERT INTO `police`.`role` (`id`, `title`) VALUES ('2', 'superior');

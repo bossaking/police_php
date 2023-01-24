@@ -2,11 +2,18 @@
 require_once 'header.php';
 require_once 'DAL/UserRepository.php';
 
+$sessionHelper = new SessionHelper();
+
 $users = (new UserRepository())->getUsers();
 
 ?>
 
 <div class="users-container">
+
+    <div class="section-header">
+        <span>Użutkownicy</span>
+        <hr>
+    </div>
 
     <div>
         <a href="new_user.php" class="btn btn-outline-primary">+ Nowy użytkownik</a>
@@ -30,22 +37,32 @@ $users = (new UserRepository())->getUsers();
             foreach ($users as $user) {
                 ?>
                 <tr>
-                    <td><?=$user->getId()?></td>
-                    <td><?=$user->getName()?></td>
-                    <td><?=$user->getSurname()?></td>
-                    <td><?=$user->getLogin()?></td>
-                    <td><?=$user->getEmail()?></td>
-                    <td><?=$user->getMaxRoleTitle()?></td>
+                    <td><?= $user->getId() ?></td>
+                    <td><?= $user->getName() ?></td>
+                    <td><?= $user->getSurname() ?></td>
+                    <td><?= $user->getLogin() ?></td>
+                    <td><?= $user->getEmail() ?></td>
+                    <td><?= $user->getMaxRoleTitle() ?></td>
                     <td>
-                        <div class="action-images">
-                            <a href="edit_user.php?id=<?=$user->getId()?>">
-                                <img alt="edit_image" src="images/pencil.svg">
-                            </a>
-                            <span>|</span>
-                            <a href="delete_user.php?id=<?=$user->getId()?>">
-                                <img alt="edit_image" src="images/trash.svg">
-                            </a>
-                        </div>
+                        <?php
+                        if ($user->getId() == $sessionHelper->getUser()->getId()) {
+                            ?>
+                            <span>-</span>
+                            <?php
+                        } else {
+                            ?>
+                            <div class="action-images">
+                                <a href="edit_user.php?id=<?= $user->getId() ?>">
+                                    <img alt="edit_image" src="images/pencil.svg">
+                                </a>
+                                <span>|</span>
+                                <a href="delete_user.php?id=<?= $user->getId() ?>">
+                                    <img alt="delete_image" src="images/trash.svg">
+                                </a>
+                            </div>
+                            <?php
+                        }
+                        ?>
                     </td>
                 </tr>
                 <?php

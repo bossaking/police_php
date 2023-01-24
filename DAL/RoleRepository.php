@@ -5,12 +5,9 @@ require_once 'Repository.php';
 class RoleRepository extends Repository
 {
 
-    private ?mysqli $conn;
-
     function __construct()
     {
-        $dbConnection = new DBConnection();
-        $this->conn = $dbConnection->getConnection();
+        parent::__construct();
     }
 
     public function getUserRoles($userId): array|null
@@ -47,6 +44,11 @@ class RoleRepository extends Repository
     {
         $sql = "INSERT INTO user_role(id_user, id_role) VALUES ('$userId', '$roleId')";
         return $this->conn->query($sql);
+    }
+
+    public function unsetAllRolesFromUser($userId){
+        $sql = "DELETE FROM user_role WHERE id_user = '$userId'";
+        $this->conn->query($sql);
     }
 
 }

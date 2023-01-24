@@ -6,12 +6,9 @@ require_once 'Repository.php';
 class UserRepository extends Repository
 {
 
-    private ?mysqli $conn;
-
     function __construct()
     {
-        $dbConnection = new DBConnection();
-        $this->conn = $dbConnection->getConnection();
+        parent::__construct();
     }
 
 
@@ -45,6 +42,22 @@ class UserRepository extends Repository
         $userRoles = (new RoleRepository())->getUserRoles($userRow['id']);
 
         return new User($userRow['id'], $userRow['name'], $userRow['surname'], $userRow['login'], $userRow['password'], $userRow['email'], $userRoles);
+    }
+
+    public function getUserById($id): User|null
+    {
+
+        $sql = "SELECT * FROM user WHERE id = '$id'";
+        $result = $this->conn->query($sql);
+
+        if ($result->num_rows == 0) {
+            return null;
+        }
+
+        $userRow = $result->fetch_assoc();
+        $userRoles = (new RoleRepository())->getUserRoles($id);
+
+        return new User($id, $userRow['name'], $userRow['surname'], $userRow['login'], $userRow['password'], $userRow['email'], $userRoles);
     }
 
     public function getUsers(): array
@@ -81,6 +94,21 @@ class UserRepository extends Repository
         $sql = "INSERT INTO user(name, surname, login, email, password) VALUES ('$name', '$surname', '$login', '$email', '$password')";
         $this->conn->query($sql);
         return $this->conn->insert_id;
+    }
+
+    public function updateUser($id, $name, $surname, $login, $email, $password, $oldPassword){
+
+        if($oldPassword != $password){
+            $password = password_hash($password, PASSWORD_BCRYPT);
+        }
+
+        $sql = "UPDATE user SET name = '$name', surname = '$surname', login = '$login', email = '$email', password = '$password' WHERE id = '$id'";
+        $this->conn->query($sql);
+    }
+
+    public function deleteUser($id){
+        $sql = "DELETE FROM user WHERE id = '$id'";
+        $this->conn->query($sql);
     }
 
 }

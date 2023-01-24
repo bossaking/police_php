@@ -32,9 +32,15 @@ class User
 
     public function getMaxRoleTitle(): string|null
     {
-        if ($this->userInRole(Roles::ADMIN)) return Roles::ADMIN->title();
-        if ($this->userInRole(Roles::SUPERIOR)) return Roles::SUPERIOR->title();
-        if ($this->userInRole(Roles::EMPLOYEE)) return Roles::EMPLOYEE->title();
+        $role = $this->getMaxRole();
+        return $role?->title();
+    }
+
+    public function getMaxRole(): Roles|null
+    {
+        if ($this->userInRole(Roles::ADMIN)) return Roles::ADMIN;
+        if ($this->userInRole(Roles::SUPERIOR)) return Roles::SUPERIOR;
+        if ($this->userInRole(Roles::EMPLOYEE)) return Roles::EMPLOYEE;
 
         return null;
     }
