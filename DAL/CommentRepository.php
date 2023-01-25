@@ -31,4 +31,9 @@ class CommentRepository extends Repository
         return $comments;
     }
 
+    public function deleteAllSubmissionComments($subId){
+        $sql = "DELETE FROM comment WHERE submission_id = '$subId'";
+        $this->conn->query($sql);
+    }
+
 }

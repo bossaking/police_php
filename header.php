@@ -1,5 +1,9 @@
 <?php
 
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
 require_once 'helpers/SessionHelper.php';
 
 $sessionHelper = new SessionHelper();
@@ -47,12 +51,12 @@ $sessionHelper = new SessionHelper();
 
                 <a href="submissions.php" class="btn btn-outline-warn">Zgłoszenia</a>
 
-                <?php
-                if ($user->getMaxRole() != Roles::EMPLOYEE) {
-                    ?>
-                    <span>|</span>
-                    <a href="submissions.php" class="btn btn-outline-access">Pracownicy</a>
-                <?php } ?>
+<!--                --><?php
+//                if ($user->getMaxRole() != Roles::EMPLOYEE) {
+//                    ?>
+<!--                    <span>|</span>-->
+<!--                    <a href="submissions.php" class="btn btn-outline-access">Pracownicy</a>-->
+<!--                --><?php //} ?>
 
                 <?php
                 if ($user->userInRole(Roles::ADMIN)) {
@@ -70,6 +74,8 @@ $sessionHelper = new SessionHelper();
         } else {
             ?>
             <nav class="header-links">
+                <a href="submissions.php" class="btn btn-outline-warn">Zgłoszenia</a>
+                <span>|</span>
                 <a href="login.php" class="btn btn-outline-primary">Zaloguj się</a>
             </nav>
             <?php

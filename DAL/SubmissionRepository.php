@@ -78,6 +78,30 @@ class SubmissionRepository extends Repository
         return $submissions;
     }
 
+    public function getSubmissionsByStatusAndEmployee($statusId, $employeeId): array
+    {
+        $submissions = array();
+        if ($statusId == 0) {
+            $sql = "SELECT * FROM submission WHERE employee_id = '$employeeId'";
+        } else {
+            $sql = "SELECT * FROM submission WHERE status_id = '$statusId' AND employee_id = '$employeeId'";
+        }
+        $result = $this->conn->query($sql);
+        while ($row = $result->fetch_assoc()) {
+            $submissions[] = $this->mapSubmissionRow($row);
+        }
+
+        return $submissions;
+    }
+
+    public function getSubmissionByAccessCode($accessCode, $userIdentity): Submission|null
+    {
+        $sql = "SELECT * FROM submission WHERE access_code = '$accessCode' AND user_identity = '$userIdentity'";
+        $result = $this->conn->query($sql);
+        if ($result->num_rows == 0) return null;
+        return $this->mapSubmissionRow($result->fetch_assoc());
+    }
+
     public function mapSubmissionRow($row): Submission
     {
         $team = (new TeamRepository())->getTeamById($row['team_id']);
@@ -94,6 +118,30 @@ class SubmissionRepository extends Repository
         $sql = "SELECT COUNT(*) as count FROM submission WHERE team_id = '$teamId'";
         $result = $this->conn->query($sql);
         return ($result->fetch_assoc())['count'];
+    }
+
+    public function updateSubmission($id, $teamId, $employeeId)
+    {
+        if ($employeeId == '0') {
+            $sql = "UPDATE submission SET team_id = '$teamId', employee_id = NULL WHERE id = '$id'";
+            $this->changeSubmissionStatus($id, SubmissionStatuses::OPENED->value);
+        } else {
+            $sql = "UPDATE submission SET team_id = '$teamId', employee_id = '$employeeId' WHERE id = '$id'";
+        }
+
+        $this->conn->query($sql);
+    }
+
+    public function changeSubmissionStatus($id, $statusId)
+    {
+        $sql = "UPDATE submission SET status_id = '$statusId' WHERE id = '$id'";
+        $this->conn->query($sql);
+    }
+
+    public function deleteSubmission($id)
+    {
+        $sql = "DELETE FROM submission WHERE id = '$id'";
+        $this->conn->query($sql);
     }
 
 }

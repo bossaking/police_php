@@ -452,6 +452,12 @@ textarea {
     text-transform: capitalize;
 }
 
+.submission-status-span{
+    width: 100%;
+    text-align: end;
+    font-family: 'Alatsi', sans-serif;
+}
+
 .opened {
     color: #002056;
 }
@@ -598,6 +604,7 @@ textarea {
 }
 
 .btn:disabled:hover{
+    cursor: auto;
     background-color: transparent;
 }
 
@@ -614,4 +621,8 @@ textarea {
 
 .sub-form-field select{
     width: 80%;
+}
+
+.closed-submission-comments{
+    height: 100%;
 }

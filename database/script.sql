@@ -1,3 +1,36 @@
+CREATE SCHEMA `police` ;
+
+CREATE TABLE `police`.`user` (
+                                 `id` INT NOT NULL AUTO_INCREMENT,
+                                 `name` VARCHAR(255) NOT NULL,
+                                 `surname` VARCHAR(255) NOT NULL,
+                                 `login` VARCHAR(255) NOT NULL,
+                                 `password` VARCHAR(255) NOT NULL,
+                                 `email` VARCHAR(255) NOT NULL,
+                                 PRIMARY KEY (`id`));
+
+CREATE TABLE `police`.`role` (
+                                 `id` INT NOT NULL AUTO_INCREMENT,
+                                 `title` VARCHAR(255) NOT NULL,
+                                 PRIMARY KEY (`id`));
+
+CREATE TABLE `police`.`user_role` (
+                                      `id_user` INT NOT NULL,
+                                      `id_role` INT NOT NULL,
+                                      PRIMARY KEY (`id_user`, `id_role`),
+                                      INDEX `user_role_role_fk_idx` (`id_role` ASC) VISIBLE,
+                                      CONSTRAINT `user_role_user_fk`
+                                          FOREIGN KEY (`id_user`)
+                                              REFERENCES `police`.`user` (`id`)
+                                              ON DELETE NO ACTION
+                                              ON UPDATE NO ACTION,
+                                      CONSTRAINT `user_role_role_fk`
+                                          FOREIGN KEY (`id_role`)
+                                              REFERENCES `police`.`role` (`id`)
+                                              ON DELETE NO ACTION
+                                              ON UPDATE NO ACTION);
+
+
 CREATE TABLE `police`.`team` (
                                  `id` INT NOT NULL AUTO_INCREMENT,
                                  `team_name` VARCHAR(255) NOT NULL,
@@ -7,25 +40,6 @@ CREATE TABLE `police`.`status` (
                                    `id` INT NOT NULL AUTO_INCREMENT,
                                    `status_name` VARCHAR(45) NOT NULL,
                                    PRIMARY KEY (`id`));
-
-CREATE TABLE `police`.`comment` (
-                                    `id` INT NOT NULL AUTO_INCREMENT,
-                                    `employee_id` INT NOT NULL,
-                                    `submission_id` INT NOT NULL,
-                                    `text` LONGTEXT NOT NULL,
-                                    PRIMARY KEY (`id`),
-                                    INDEX `employee_comment_fk_idx` (`employee_id` ASC) VISIBLE,
-                                    INDEX `submission_comment_fk_idx` (`submission_id` ASC) VISIBLE,
-                                    CONSTRAINT `employee_comment_fk`
-                                        FOREIGN KEY (`employee_id`)
-                                            REFERENCES `police`.`user` (`id`)
-                                            ON DELETE NO ACTION
-                                            ON UPDATE NO ACTION,
-                                    CONSTRAINT `submission_comment_fk`
-                                        FOREIGN KEY (`submission_id`)
-                                            REFERENCES `police`.`submission` (`id`)
-                                            ON DELETE NO ACTION
-                                            ON UPDATE NO ACTION);
 
 CREATE TABLE `police`.`submission` (
                                        `id` INT NOT NULL AUTO_INCREMENT,
@@ -57,8 +71,29 @@ CREATE TABLE `police`.`submission` (
                                        CONSTRAINT `employee_fk`
                                            FOREIGN KEY (`employee_id`)
                                                REFERENCES `police`.`user` (`id`)
-                                               ON DELETE NO ACTION
+                                               ON DELETE SET NULL
                                                ON UPDATE NO ACTION);
+
+CREATE TABLE `police`.`comment` (
+                                    `id` INT NOT NULL AUTO_INCREMENT,
+                                    `employee_id` INT NOT NULL,
+                                    `submission_id` INT NOT NULL,
+                                    `text` LONGTEXT NOT NULL,
+                                    PRIMARY KEY (`id`),
+                                    INDEX `employee_comment_fk_idx` (`employee_id` ASC) VISIBLE,
+                                    INDEX `submission_comment_fk_idx` (`submission_id` ASC) VISIBLE,
+                                    CONSTRAINT `employee_comment_fk`
+                                        FOREIGN KEY (`employee_id`)
+                                            REFERENCES `police`.`user` (`id`)
+                                            ON DELETE NO ACTION
+                                            ON UPDATE NO ACTION,
+                                    CONSTRAINT `submission_comment_fk`
+                                        FOREIGN KEY (`submission_id`)
+                                            REFERENCES `police`.`submission` (`id`)
+                                            ON DELETE NO ACTION
+                                            ON UPDATE NO ACTION);
+
+
 
 
 /*Seedeng database*/

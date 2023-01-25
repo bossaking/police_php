@@ -6,7 +6,7 @@ class DBConnection{
     private string $ip = "31.172.70.199";
     private int $port = 3306;
     private string $username = "root";
-    private string $password = "root";
+    private string $password = "2f9J17AKqNm1s^%^";
     private string $database = "police";
 
 
