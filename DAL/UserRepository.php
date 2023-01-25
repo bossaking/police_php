@@ -89,16 +89,17 @@ class UserRepository extends Repository
         return $this->conn->query($sql)->num_rows == 0;
     }
 
-    public function createUser($name, $surname, $login, $email, $password): int | null
+    public function createUser($name, $surname, $login, $email, $password): int|null
     {
         $sql = "INSERT INTO user(name, surname, login, email, password) VALUES ('$name', '$surname', '$login', '$email', '$password')";
         $this->conn->query($sql);
         return $this->conn->insert_id;
     }
 
-    public function updateUser($id, $name, $surname, $login, $email, $password, $oldPassword){
+    public function updateUser($id, $name, $surname, $login, $email, $password, $oldPassword)
+    {
 
-        if($oldPassword != $password){
+        if ($oldPassword != $password) {
             $password = password_hash($password, PASSWORD_BCRYPT);
         }
 
@@ -106,9 +107,22 @@ class UserRepository extends Repository
         $this->conn->query($sql);
     }
 
-    public function deleteUser($id){
+    public function deleteUser($id)
+    {
         $sql = "DELETE FROM user WHERE id = '$id'";
         $this->conn->query($sql);
+    }
+
+    public function getUsersInMaxRole($role): array
+    {
+        $users = $this->getUsers();
+        $outputUsers = array();
+        foreach ($users as $user) {
+            if ($user->getMaxRole()->value >= $role) {
+                $outputUsers[] = $user;
+            }
+        }
+        return $outputUsers;
     }
 
 }

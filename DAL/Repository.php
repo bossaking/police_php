@@ -6,6 +6,7 @@ require_once 'UserRepository.php';
 require_once 'models/Role.php';
 require_once 'models/User.php';
 require_once 'models/Team.php';
+require_once 'models/Submission.php';
 
 class Repository{
 

@@ -58,7 +58,6 @@ $sessionHelper = new SessionHelper();
                 if ($user->userInRole(Roles::ADMIN)) {
                     ?>
                     <span>|</span>
-                    <a href="categories.php" class="btn btn-primary">Kategorie</a>
                     <a href="teams.php" class="btn btn-primary">Zespoły</a>
                     <a href="users.php" class="btn btn-primary">Użytkownicy</a>
                     <?php

@@ -44,14 +44,18 @@ $users = (new UserRepository())->getUsers();
                     <td><?= $user->getEmail() ?></td>
                     <td><?= $user->getMaxRoleTitle() ?></td>
                     <td>
-                        <?php
-                        if ($user->getId() == $sessionHelper->getUser()->getId()) {
-                            ?>
-                            <span>-</span>
+                        <div class="action-images">
                             <?php
-                        } else {
-                            ?>
-                            <div class="action-images">
+                            if ($user->getId() == $sessionHelper->getUser()->getId()) {
+                                ?>
+                                <a class="tooltip">
+                                    <span class="tooltip-text">Nie można zedytować lub usunąć konta na które się zalogowałeś</span>
+                                    <img alt="info_image" src="images/info.svg">
+                                </a>
+                                <?php
+                            } else {
+                                ?>
+
                                 <a href="edit_user.php?id=<?= $user->getId() ?>">
                                     <img alt="edit_image" src="images/pencil.svg">
                                 </a>
@@ -59,10 +63,11 @@ $users = (new UserRepository())->getUsers();
                                 <a href="delete_user.php?id=<?= $user->getId() ?>">
                                     <img alt="delete_image" src="images/trash.svg">
                                 </a>
-                            </div>
-                            <?php
-                        }
-                        ?>
+
+                                <?php
+                            }
+                            ?>
+                        </div>
                     </td>
                 </tr>
                 <?php

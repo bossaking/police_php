@@ -3,6 +3,63 @@ CREATE TABLE `police`.`team` (
                                  `team_name` VARCHAR(255) NOT NULL,
                                  PRIMARY KEY (`id`));
 
+CREATE TABLE `police`.`status` (
+                                   `id` INT NOT NULL AUTO_INCREMENT,
+                                   `status_name` VARCHAR(45) NOT NULL,
+                                   PRIMARY KEY (`id`));
+
+CREATE TABLE `police`.`comment` (
+                                    `id` INT NOT NULL AUTO_INCREMENT,
+                                    `employee_id` INT NOT NULL,
+                                    `submission_id` INT NOT NULL,
+                                    `text` LONGTEXT NOT NULL,
+                                    PRIMARY KEY (`id`),
+                                    INDEX `employee_comment_fk_idx` (`employee_id` ASC) VISIBLE,
+                                    INDEX `submission_comment_fk_idx` (`submission_id` ASC) VISIBLE,
+                                    CONSTRAINT `employee_comment_fk`
+                                        FOREIGN KEY (`employee_id`)
+                                            REFERENCES `police`.`user` (`id`)
+                                            ON DELETE NO ACTION
+                                            ON UPDATE NO ACTION,
+                                    CONSTRAINT `submission_comment_fk`
+                                        FOREIGN KEY (`submission_id`)
+                                            REFERENCES `police`.`submission` (`id`)
+                                            ON DELETE NO ACTION
+                                            ON UPDATE NO ACTION);
+
+CREATE TABLE `police`.`submission` (
+                                       `id` INT NOT NULL AUTO_INCREMENT,
+                                       `user_name` VARCHAR(255) NOT NULL,
+                                       `user_surname` VARCHAR(255) NOT NULL,
+                                       `user_identity` VARCHAR(255) NOT NULL,
+                                       `user_station` VARCHAR(255) NOT NULL,
+                                       `topic` VARCHAR(255) NOT NULL,
+                                       `description` LONGTEXT NOT NULL,
+                                       `team_id` INT NULL,
+                                       `employee_id` INT NULL,
+                                       `access_code` VARCHAR(255) NOT NULL,
+                                       `access_code_showed` TINYINT NOT NULL,
+                                       `status_id` INT NOT NULL,
+                                       PRIMARY KEY (`id`),
+                                       INDEX `team_fk_idx` (`team_id` ASC) VISIBLE,
+                                       INDEX `status_fk_idx` (`status_id` ASC) VISIBLE,
+                                       INDEX `employee_fk_idx` (`employee_id` ASC) VISIBLE,
+                                       CONSTRAINT `team_fk`
+                                           FOREIGN KEY (`team_id`)
+                                               REFERENCES `police`.`team` (`id`)
+                                               ON DELETE NO ACTION
+                                               ON UPDATE NO ACTION,
+                                       CONSTRAINT `status_fk`
+                                           FOREIGN KEY (`status_id`)
+                                               REFERENCES `police`.`status` (`id`)
+                                               ON DELETE NO ACTION
+                                               ON UPDATE NO ACTION,
+                                       CONSTRAINT `employee_fk`
+                                           FOREIGN KEY (`employee_id`)
+                                               REFERENCES `police`.`user` (`id`)
+                                               ON DELETE NO ACTION
+                                               ON UPDATE NO ACTION);
+
 
 /*Seedeng database*/
 INSERT INTO `police`.`role` (`id`, `title`) VALUES ('1', 'admin');
@@ -15,3 +72,7 @@ INSERT INTO `police`.`user` (`id`, `name`, `surname`, `password`, `login`, `emai
 INSERT INTO `police`.`user_role` (`id_user`, `id_role`) VALUES ('1', '1');
 INSERT INTO `police`.`user_role` (`id_user`, `id_role`) VALUES ('1', '2');
 INSERT INTO `police`.`user_role` (`id_user`, `id_role`) VALUES ('1', '3');
+
+INSERT INTO `police`.`status` (`id`, `status_name`) VALUES ('1', 'Opened');
+INSERT INTO `police`.`status` (`id`, `status_name`) VALUES ('2', 'In progress');
+INSERT INTO `police`.`status` (`id`, `status_name`) VALUES ('3', 'Closed');
