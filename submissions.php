@@ -15,7 +15,7 @@ if (isset($_GET['status'])) {
 
 $employees = array();
 
-if(isset($_GET['employee'])){
+if (isset($_GET['employee'])) {
     $employeeId = $_GET['employee'];
 }
 
@@ -77,20 +77,28 @@ if (isset($_GET['search'])) {
                                 ?>
                             </select>
                         </div>
-                        <div class="form-field">
-                            <label for="employee">Pracownik:</label>
-                            <select name="employee" id="employee">
-                                <option value="0">Wszystkie</option>
-                                <?php
-                                foreach ($employees as $employee) {
-                                    ?>
-                                    <option <?php if ($employeeId == $employee->getId()) echo 'selected'; ?>
-                                            value="<?= $employee->getId() ?>"><?= $employee->getName() ?> <?=$employee->getSurname()?></option>
+
+                        <?php
+                        if ($sessionHelper->getUser()->userInRole(Roles::SUPERIOR)) {
+                            ?>
+
+                            <div class="form-field">
+                                <label for="employee">Pracownik:</label>
+                                <select name="employee" id="employee">
+                                    <option value="0">Wszystkie</option>
                                     <?php
-                                }
-                                ?>
-                            </select>
-                        </div>
+                                    foreach ($employees as $employee) {
+                                        ?>
+                                        <option <?php if ($employeeId == $employee->getId()) echo 'selected'; ?>
+                                                value="<?= $employee->getId() ?>"><?= $employee->getName() ?> <?= $employee->getSurname() ?></option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+
+                        <?php } ?>
+
                     </div>
                     <button type="submit" class="btn btn-outline-access" style="margin-top: auto">Zastosuj</button>
                     <?php
