@@ -81,8 +81,10 @@ class SubmissionRepository extends Repository
     public function getSubmissionsByStatusAndEmployee($statusId, $employeeId): array
     {
         $submissions = array();
-        if ($statusId == 0) {
+        if ($statusId == 0 && $employeeId != 0) {
             $sql = "SELECT * FROM submission WHERE employee_id = '$employeeId'";
+        } else if ($employeeId == 0) {
+            return $this->getSubmissionsByStatus($statusId);
         } else {
             $sql = "SELECT * FROM submission WHERE status_id = '$statusId' AND employee_id = '$employeeId'";
         }

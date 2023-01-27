@@ -1,15 +1,25 @@
 <?php
 require_once 'header.php';
 require_once 'DAL/SubmissionRepository.php';
+require_once 'DAL/UserRepository.php';
 require_once 'enums/SubmissionStatuses.php';
 
 $subRepo = new SubmissionRepository();
 $sessionHelper = new SessionHelper();
 
 $statusId = 0;
+$employeeId = 0;
 if (isset($_GET['status'])) {
     $statusId = $_GET['status'];
 }
+
+$employees = array();
+
+if(isset($_GET['employee'])){
+    $employeeId = $_GET['employee'];
+}
+
+$employees = (new UserRepository())->getUsersInMaxRole(Roles::EMPLOYEE->value);
 
 $submissions = array();
 
@@ -18,7 +28,7 @@ if ($sessionHelper->isLoggedIn()) {
     if ($sessionHelper->getUser()->getMaxRole() == Roles::EMPLOYEE) {
         $submissions = $subRepo->getSubmissionsByStatusAndEmployee($statusId, $sessionHelper->getUser()->getId());
     } else if ($sessionHelper->getUser()->userInRole(Roles::SUPERIOR)) {
-        $submissions = $subRepo->getSubmissionsByStatus($statusId);
+        $submissions = $subRepo->getSubmissionsByStatusAndEmployee($statusId, $employeeId);
     }
 
 }
@@ -54,7 +64,7 @@ if (isset($_GET['search'])) {
 
                     <div class="form-row">
                         <div class="form-field">
-                            <label for="status" style="display: none"></label>
+                            <label for="status">Status:</label>
                             <select name="status" id="status">
                                 <option value="0">Wszystkie</option>
                                 <?php
@@ -67,8 +77,22 @@ if (isset($_GET['search'])) {
                                 ?>
                             </select>
                         </div>
+                        <div class="form-field">
+                            <label for="employee">Pracownik:</label>
+                            <select name="employee" id="employee">
+                                <option value="0">Wszystkie</option>
+                                <?php
+                                foreach ($employees as $employee) {
+                                    ?>
+                                    <option <?php if ($employeeId == $employee->getId()) echo 'selected'; ?>
+                                            value="<?= $employee->getId() ?>"><?= $employee->getName() ?> <?=$employee->getSurname()?></option>
+                                    <?php
+                                }
+                                ?>
+                            </select>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-outline-access">Zastosuj</button>
+                    <button type="submit" class="btn btn-outline-access" style="margin-top: auto">Zastosuj</button>
                     <?php
                 } else {
                     ?>

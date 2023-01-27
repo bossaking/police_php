@@ -125,4 +125,10 @@ class UserRepository extends Repository
         return $outputUsers;
     }
 
+    public function updateUserPassword($id, $password)
+    {
+        $sql = "UPDATE user SET password = '$password' WHERE id = '$id'";
+        $this->conn->query($sql);
+    }
+
 }

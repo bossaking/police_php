@@ -46,17 +46,10 @@ $sessionHelper = new SessionHelper();
             $user = $sessionHelper->getUser();
             ?>
 
-            <span class="user-info">Jesteś zalogowany jako <?= $user->getName() ?> <?= $user->getSurname() ?> (<?= $user->getMaxRoleTitle() ?>)</span>
+            <span class="user-info">Jesteś zalogowany jako <a href="user_main_profile.php" style="color: #a6995e"><?= $user->getName() ?> <?= $user->getSurname() ?></a> (<?= $user->getMaxRoleTitle() ?>)</span>
             <nav class="header-links">
 
                 <a href="submissions.php" class="btn btn-outline-warn">Zgłoszenia</a>
-
-<!--                --><?php
-//                if ($user->getMaxRole() != Roles::EMPLOYEE) {
-//                    ?>
-<!--                    <span>|</span>-->
-<!--                    <a href="submissions.php" class="btn btn-outline-access">Pracownicy</a>-->
-<!--                --><?php //} ?>
 
                 <?php
                 if ($user->userInRole(Roles::ADMIN)) {
